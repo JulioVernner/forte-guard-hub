@@ -1,26 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Hero } from "@/components/site/Hero";
+import { About } from "@/components/site/About";
+import { Services } from "@/components/site/Services";
+import { CommandCenter } from "@/components/site/CommandCenter";
+import { Differentials } from "@/components/site/Differentials";
+import { Coverage } from "@/components/site/Coverage";
+import { Contact } from "@/components/site/Contact";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Grupo Forte Proteção — Segurança, monitoramento e rastreamento" },
+      {
+        name: "description",
+        content:
+          "Holding que integra segurança patrimonial, monitoramento eletrônico e rastreamento veicular em uma central tática 24h.",
+      },
+      { property: "og:title", content: "Grupo Forte Proteção" },
+      {
+        property: "og:description",
+        content:
+          "Tecnologia, inteligência e proteção para operações que não podem falhar.",
+      },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <>
+      <Hero />
+      <About />
+      <Services />
+      <CommandCenter />
+      <Differentials />
+      <Coverage />
+      <Contact />
+    </>
+  );
 }
