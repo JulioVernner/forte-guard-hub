@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SegurancaPatrimonialRouteImport } from './routes/seguranca-patrimonial'
+import { Route as RastreamentoVeicularRouteImport } from './routes/rastreamento-veicular'
+import { Route as PortariaRemotaRouteImport } from './routes/portaria-remota'
+import { Route as MonitoramentoEletronicoRouteImport } from './routes/monitoramento-eletronico'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SegurancaPatrimonialRoute = SegurancaPatrimonialRouteImport.update({
+  id: '/seguranca-patrimonial',
+  path: '/seguranca-patrimonial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RastreamentoVeicularRoute = RastreamentoVeicularRouteImport.update({
+  id: '/rastreamento-veicular',
+  path: '/rastreamento-veicular',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortariaRemotaRoute = PortariaRemotaRouteImport.update({
+  id: '/portaria-remota',
+  path: '/portaria-remota',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MonitoramentoEletronicoRoute = MonitoramentoEletronicoRouteImport.update({
+  id: '/monitoramento-eletronico',
+  path: '/monitoramento-eletronico',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,88 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/monitoramento-eletronico': typeof MonitoramentoEletronicoRoute
+  '/portaria-remota': typeof PortariaRemotaRoute
+  '/rastreamento-veicular': typeof RastreamentoVeicularRoute
+  '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/monitoramento-eletronico': typeof MonitoramentoEletronicoRoute
+  '/portaria-remota': typeof PortariaRemotaRoute
+  '/rastreamento-veicular': typeof RastreamentoVeicularRoute
+  '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/monitoramento-eletronico': typeof MonitoramentoEletronicoRoute
+  '/portaria-remota': typeof PortariaRemotaRoute
+  '/rastreamento-veicular': typeof RastreamentoVeicularRoute
+  '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/monitoramento-eletronico'
+    | '/portaria-remota'
+    | '/rastreamento-veicular'
+    | '/seguranca-patrimonial'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/monitoramento-eletronico'
+    | '/portaria-remota'
+    | '/rastreamento-veicular'
+    | '/seguranca-patrimonial'
+  id:
+    | '__root__'
+    | '/'
+    | '/monitoramento-eletronico'
+    | '/portaria-remota'
+    | '/rastreamento-veicular'
+    | '/seguranca-patrimonial'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MonitoramentoEletronicoRoute: typeof MonitoramentoEletronicoRoute
+  PortariaRemotaRoute: typeof PortariaRemotaRoute
+  RastreamentoVeicularRoute: typeof RastreamentoVeicularRoute
+  SegurancaPatrimonialRoute: typeof SegurancaPatrimonialRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/seguranca-patrimonial': {
+      id: '/seguranca-patrimonial'
+      path: '/seguranca-patrimonial'
+      fullPath: '/seguranca-patrimonial'
+      preLoaderRoute: typeof SegurancaPatrimonialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rastreamento-veicular': {
+      id: '/rastreamento-veicular'
+      path: '/rastreamento-veicular'
+      fullPath: '/rastreamento-veicular'
+      preLoaderRoute: typeof RastreamentoVeicularRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portaria-remota': {
+      id: '/portaria-remota'
+      path: '/portaria-remota'
+      fullPath: '/portaria-remota'
+      preLoaderRoute: typeof PortariaRemotaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/monitoramento-eletronico': {
+      id: '/monitoramento-eletronico'
+      path: '/monitoramento-eletronico'
+      fullPath: '/monitoramento-eletronico'
+      preLoaderRoute: typeof MonitoramentoEletronicoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +137,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MonitoramentoEletronicoRoute: MonitoramentoEletronicoRoute,
+  PortariaRemotaRoute: PortariaRemotaRoute,
+  RastreamentoVeicularRoute: RastreamentoVeicularRoute,
+  SegurancaPatrimonialRoute: SegurancaPatrimonialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
