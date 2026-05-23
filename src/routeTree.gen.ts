@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SegurancaPatrimonialRouteImport } from './routes/seguranca-patrimonial'
 import { Route as RastreamentoVeicularRouteImport } from './routes/rastreamento-veicular'
 import { Route as PortariaRemotaRouteImport } from './routes/portaria-remota'
 import { Route as MonitoramentoEletronicoRouteImport } from './routes/monitoramento-eletronico'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SegurancaPatrimonialRoute = SegurancaPatrimonialRouteImport.update({
   id: '/seguranca-patrimonial',
   path: '/seguranca-patrimonial',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/portaria-remota': typeof PortariaRemotaRoute
   '/rastreamento-veicular': typeof RastreamentoVeicularRoute
   '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/portaria-remota': typeof PortariaRemotaRoute
   '/rastreamento-veicular': typeof RastreamentoVeicularRoute
   '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/portaria-remota': typeof PortariaRemotaRoute
   '/rastreamento-veicular': typeof RastreamentoVeicularRoute
   '/seguranca-patrimonial': typeof SegurancaPatrimonialRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/portaria-remota'
     | '/rastreamento-veicular'
     | '/seguranca-patrimonial'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/portaria-remota'
     | '/rastreamento-veicular'
     | '/seguranca-patrimonial'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/portaria-remota'
     | '/rastreamento-veicular'
     | '/seguranca-patrimonial'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,10 +105,18 @@ export interface RootRouteChildren {
   PortariaRemotaRoute: typeof PortariaRemotaRoute
   RastreamentoVeicularRoute: typeof RastreamentoVeicularRoute
   SegurancaPatrimonialRoute: typeof SegurancaPatrimonialRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seguranca-patrimonial': {
       id: '/seguranca-patrimonial'
       path: '/seguranca-patrimonial'
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortariaRemotaRoute: PortariaRemotaRoute,
   RastreamentoVeicularRoute: RastreamentoVeicularRoute,
   SegurancaPatrimonialRoute: SegurancaPatrimonialRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
