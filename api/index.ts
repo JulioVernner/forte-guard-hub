@@ -1,4 +1,6 @@
-const serverEntryPromise = import('../src/server.ts');
+import serverModule from '../dist/server/index.js';
+
+const serverEntry = (serverModule as any).default ?? serverModule;
 
 function getRequestUrl(req: any) {
   const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
@@ -32,9 +34,6 @@ async function sendResponse(res: any, response: Response) {
 }
 
 export default async function handler(req: any, res: any) {
-  const entry = await serverEntryPromise;
-  const serverEntry = (entry as any).default ?? entry;
-
   const request = new Request(getRequestUrl(req).toString(), {
     method: req.method ?? 'GET',
     headers: makeWebHeaders(req),
