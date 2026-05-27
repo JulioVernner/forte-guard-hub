@@ -1,0 +1,30 @@
+# Build output
+dist
+.dist
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Dev tools
+.vscode
+.idea
+.DS_Store
+
+# Cloudflare/Wrangler
+.wrangler/
+.dev.vars
+wrangler.jsonc
+
+# Local env files
+*.local
+.env
+.env.local
+
+# Misc
+.tanstack/**
+.nitro
+.vinxi
+.output
