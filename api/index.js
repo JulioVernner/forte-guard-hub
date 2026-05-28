@@ -1,4 +1,5 @@
 import serverModule from '../dist/server/index.js';
+console.log('SERVER MODULE:', serverModule);
 
 const serverEntry = serverModule.default ?? serverModule;
 
@@ -49,6 +50,7 @@ export default async function handler(req, res) {
     duplex: 'half',
   });
 
+  console.log('SERVER ENTRY:', serverEntry);
   const response = await serverEntry.fetch(request);
 
   await sendResponse(res, response);
