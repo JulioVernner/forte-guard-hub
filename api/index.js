@@ -1,6 +1,6 @@
-import serverModule from '../dist/server/index.js';
+import * as serverModule from '../dist/server/index.js';
 
-console.log('SERVER MODULE:', serverModule);
+console.log('SERVER MODULE KEYS:', Object.keys(serverModule));
 
 function getRequestUrl(req) {
   const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
@@ -27,15 +27,15 @@ function makeWebHeaders(req) {
 }
 
 async function sendResponse(res, response) {
-  res.status(response.status);
+  res.statusCode = response.status;
 
   response.headers.forEach((value, key) => {
     res.setHeader(key, value);
   });
 
-  const body = await response.arrayBuffer();
+  const body = Buffer.from(await response.arrayBuffer());
 
-  res.end(Buffer.from(body));
+  res.end(body);
 }
 
 export default async function handler(req, res) {
@@ -53,24 +53,33 @@ export default async function handler(req, res) {
 
     console.log('REQUEST CREATED');
 
-    console.log('SERVER DEFAULT:', serverModule.default);
+    const entry =
+      serverModule.default ??
+      serverModule;
 
-    const response = await serverModule.default.fetch(
-      request,
-      {},
-      {},
-    );
+    console.log('ENTRY:', entry);
 
-    console.log('RESPONSE OK');
+    if (!entry?.fetch) {
+      throw new Error(
+        `Fetch function not found. Export keys: ${Object.keys(entry || {})}`
+      );
+    }
+
+    const response = await entry.fetch(request, {}, {});
+
+    console.log('SSR RESPONSE STATUS:', response.status);
 
     await sendResponse(res, response);
   } catch (error) {
-    console.error('VERCEL SSR ERROR:', error);
+    console.error('SSR ERROR:', error);
 
     res.statusCode = 500;
+
+    res.setHeader('content-type', 'text/html');
+
     res.end(`
-      <h1>SSR Error</h1>
-      <pre>${String(error?.stack || error)}</pre>
+      <h1>SSR Runtime Error</h1>
+      <pre>${error?.stack || String(error)}</pre>
     `);
   }
 }
