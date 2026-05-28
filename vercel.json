@@ -3,14 +3,14 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/client",
   "functions": {
-    "api/index.js": {
+    "api/index.mjs": {
       "includeFiles": "dist/server/**"
     }
   },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/index.js"
+      "dest": "/api/index.mjs"
     }
   ]
 }
