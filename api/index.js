@@ -1,5 +1,7 @@
 import serverModule from '../dist/server/index.js';
 
+console.log('SERVER MODULE:', serverModule);
+
 function getRequestUrl(req) {
   const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
   const host = String(req.headers.host ?? 'localhost');
@@ -38,6 +40,8 @@ async function sendResponse(res, response) {
 
 export default async function handler(req, res) {
   try {
+    console.log('REQUEST START');
+
     const request = new Request(getRequestUrl(req).toString(), {
       method: req.method ?? 'GET',
       headers: makeWebHeaders(req),
@@ -47,17 +51,26 @@ export default async function handler(req, res) {
           : req,
     });
 
+    console.log('REQUEST CREATED');
+
+    console.log('SERVER DEFAULT:', serverModule.default);
+
     const response = await serverModule.default.fetch(
       request,
       {},
       {},
     );
 
+    console.log('RESPONSE OK');
+
     await sendResponse(res, response);
   } catch (error) {
-    console.error(error);
+    console.error('VERCEL SSR ERROR:', error);
 
     res.statusCode = 500;
-    res.end('Internal Server Error');
+    res.end(`
+      <h1>SSR Error</h1>
+      <pre>${String(error?.stack || error)}</pre>
+    `);
   }
 }
