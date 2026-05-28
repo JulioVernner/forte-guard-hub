@@ -1,7 +1,4 @@
 import serverModule from '../dist/server/index.js';
-console.log('SERVER MODULE:', serverModule);
-
-const serverEntry = serverModule.default ?? serverModule;
 
 function getRequestUrl(req) {
   const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
@@ -40,18 +37,27 @@ async function sendResponse(res, response) {
 }
 
 export default async function handler(req, res) {
-  const request = new Request(getRequestUrl(req).toString(), {
-    method: req.method ?? 'GET',
-    headers: makeWebHeaders(req),
-    body:
-      req.method === 'GET' || req.method === 'HEAD'
-        ? undefined
-        : req,
-    duplex: 'half',
-  });
+  try {
+    const request = new Request(getRequestUrl(req).toString(), {
+      method: req.method ?? 'GET',
+      headers: makeWebHeaders(req),
+      body:
+        req.method === 'GET' || req.method === 'HEAD'
+          ? undefined
+          : req,
+    });
 
-  console.log('SERVER ENTRY:', serverEntry);
-  const response = await serverEntry.fetch(request);
+    const response = await serverModule.default.fetch(
+      request,
+      {},
+      {},
+    );
 
-  await sendResponse(res, response);
+    await sendResponse(res, response);
+  } catch (error) {
+    console.error(error);
+
+    res.statusCode = 500;
+    res.end('Internal Server Error');
+  }
 }
