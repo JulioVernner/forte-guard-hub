@@ -1,80 +1,63 @@
-import "./lib/error-capture";
+import serverModule from '../dist/server/index.js';
 
-import { consumeLastCapturedError } from "./lib/error-capture";
-import { renderErrorPage } from "./lib/error-page";
+function getRequestUrl(req) {
+  const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
+  const host = String(req.headers.host ?? 'localhost');
+  const path = req.url ?? '/';
 
-type ServerEntry = {
-  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
-};
-
-let serverEntryPromise: Promise<ServerEntry> | undefined;
-
-async function getServerEntry(): Promise<ServerEntry> {
-  if (!serverEntryPromise) {
-    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
-      (m) => ((m as { default?: ServerEntry }).default ?? (m as unknown as ServerEntry)),
-    );
-  }
-  return serverEntryPromise;
+  return new URL(path, `${protocol}://${host}`);
 }
 
-function brandedErrorResponse(): Response {
-  return new Response(renderErrorPage(), {
-    status: 500,
-    headers: { "content-type": "text/html; charset=utf-8" },
-  });
-}
+function makeWebHeaders(req) {
+  const headers = new Headers();
 
-function isCatastrophicSsrErrorBody(body: string, responseStatus: number): boolean {
-  let payload: unknown;
-  try {
-    payload = JSON.parse(body);
-  } catch {
-    return false;
-  }
-
-  if (!payload || Array.isArray(payload) || typeof payload !== "object") {
-    return false;
-  }
-
-  const fields = payload as Record<string, unknown>;
-  const expectedKeys = new Set(["message", "status", "unhandled"]);
-  if (!Object.keys(fields).every((key) => expectedKeys.has(key))) {
-    return false;
-  }
-
-  return (
-    fields.unhandled === true &&
-    fields.message === "HTTPError" &&
-    (fields.status === undefined || fields.status === responseStatus)
-  );
-}
-
-// h3 swallows in-handler throws into a normal 500 Response with body
-// {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
-async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
-  if (response.status < 500) return response;
-  const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes("application/json")) return response;
-
-  const body = await response.clone().text();
-  if (!isCatastrophicSsrErrorBody(body, response.status)) {
-    return response;
-  }
-
-  console.error(consumeLastCapturedError() ?? new Error(`h3 swallowed SSR error: ${body}`));
-  return brandedErrorResponse();
-}
-
-export default {
-  async fetch(request: Request, env: unknown, ctx: unknown) {
-    try {
-      const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
-    } catch (error) {
-      console.error(error);
-      return brandedErrorResponse();
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (typeof value === 'string') {
+      headers.set(key, value);
+    } else if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item) headers.append(key, item);
+      }
     }
-  },
-};
+  }
+
+  return headers;
+}
+
+async function sendResponse(res, response) {
+  res.status(response.status);
+
+  response.headers.forEach((value, key) => {
+    res.setHeader(key, value);
+  });
+
+  const body = await response.arrayBuffer();
+
+  res.end(Buffer.from(body));
+}
+
+export default async function handler(req, res) {
+  try {
+    const request = new Request(getRequestUrl(req).toString(), {
+      method: req.method ?? 'GET',
+      headers: makeWebHeaders(req),
+      body:
+        req.method === 'GET' || req.method === 'HEAD'
+          ? undefined
+          : req,
+    });
+
+    const response = await serverModule.default.fetch(
+      request,
+      {},
+      {},
+    );
+
+    await sendResponse(res, response);
+  } catch (error) {
+    console.error('VERCEL SSR ERROR:', error);
+
+    res.statusCode = 500;
+    res.end('Internal Server Error');
+  }
+}
