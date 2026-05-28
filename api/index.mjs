@@ -1,7 +1,5 @@
 import * as serverModule from '../dist/server/index.js';
 
-console.log('SERVER MODULE KEYS:', Object.keys(serverModule));
-
 function getRequestUrl(req) {
   const protocol = String(req.headers['x-forwarded-proto'] ?? 'https');
   const host = String(req.headers.host ?? 'localhost');
@@ -40,8 +38,6 @@ async function sendResponse(res, response) {
 
 export default async function handler(req, res) {
   try {
-    console.log('REQUEST START');
-
     const request = new Request(getRequestUrl(req).toString(), {
       method: req.method ?? 'GET',
       headers: makeWebHeaders(req),
@@ -51,23 +47,11 @@ export default async function handler(req, res) {
           : req,
     });
 
-    console.log('REQUEST CREATED');
-
     const entry =
       serverModule.default ??
       serverModule;
 
-    console.log('ENTRY:', entry);
-
-    if (!entry?.fetch) {
-      throw new Error(
-        `Fetch function not found. Export keys: ${Object.keys(entry || {})}`
-      );
-    }
-
     const response = await entry.fetch(request, {}, {});
-
-    console.log('SSR RESPONSE STATUS:', response.status);
 
     await sendResponse(res, response);
   } catch (error) {
@@ -75,10 +59,8 @@ export default async function handler(req, res) {
 
     res.statusCode = 500;
 
-    res.setHeader('content-type', 'text/html');
-
     res.end(`
-      <h1>SSR Runtime Error</h1>
+      <h1>SSR Error</h1>
       <pre>${error?.stack || String(error)}</pre>
     `);
   }
