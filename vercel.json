@@ -1,3 +1,9 @@
 {
-  "outputDirectory": "dist/client"
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist/client",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/((?!_build/|assets/|.*\\..*).*)", "destination": "/_shell" }
+  ]
 }
