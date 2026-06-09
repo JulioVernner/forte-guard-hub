@@ -1,8 +1,6 @@
 @import "tailwindcss" source(none);
-@import "tw-animate-css";
-
 @source "../src";
-
+@import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -54,71 +52,68 @@
   /* Dark (default sensation) — used directly below in .dark */
   /* Light tokens */
   --background: oklch(0.985 0.005 240);
-  /* Light — base azul claro, destaques azul escuro + dourado */
-  --background: oklch(0.97 0.018 232);
-  --foreground: oklch(0.20 0.08 252);
-  --surface: oklch(0.94 0.028 230);
-  --surface-2: oklch(0.90 0.045 230);
-  --card: oklch(0.99 0.012 232);
-  --card-foreground: oklch(0.20 0.08 252);
-  --popover: oklch(0.99 0.012 232);
-  --popover-foreground: oklch(0.20 0.08 252);
-  --primary: oklch(0.30 0.12 252);
-  --primary-foreground: oklch(0.98 0.015 232);
-  --secondary: oklch(0.88 0.05 230);
-  --secondary-foreground: oklch(0.22 0.09 252);
-  --muted: oklch(0.91 0.035 230);
-  --muted-foreground: oklch(0.46 0.06 248);
-  --accent: oklch(0.85 0.07 232);
-  --accent-foreground: oklch(0.22 0.09 252);
+  --foreground: oklch(0.18 0.03 240);
+  --surface: oklch(0.97 0.008 240);
+  --surface-2: oklch(0.94 0.012 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.03 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.03 240);
+  --primary: oklch(0.28 0.05 240);
+  --primary-foreground: oklch(0.985 0.005 240);
+  --secondary: oklch(0.94 0.012 240);
+  --secondary-foreground: oklch(0.2 0.03 240);
+  --muted: oklch(0.94 0.012 240);
+  --muted-foreground: oklch(0.45 0.02 240);
+  --accent: oklch(0.92 0.02 240);
+  --accent-foreground: oklch(0.18 0.03 240);
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.985 0.005 240);
-  --border: oklch(0.80 0.05 232);
-  --input: oklch(0.84 0.04 232);
-  --ring: oklch(0.55 0.15 250);
+  --border: oklch(0.88 0.01 240);
+  --input: oklch(0.88 0.01 240);
+  --ring: oklch(0.7 0.03 240);
 
-  --gold: oklch(0.76 0.14 80);
-  --gold-foreground: oklch(0.20 0.10 252);
-  --gold-glow: oklch(0.76 0.14 80 / 0.45);
-  --online: oklch(0.72 0.20 152);
+  --gold: oklch(0.78 0.13 78);
+  --gold-foreground: oklch(0.18 0.03 240);
+  --gold-glow: oklch(0.78 0.13 78 / 0.45);
+  --online: oklch(0.78 0.21 145);
 
-  --grid-color: oklch(0.30 0.12 252 / 0.10);
-  --glass-bg: oklch(0.99 0.012 232 / 0.6);
-  --glass-border: oklch(0.30 0.12 252 / 0.12);
+  --grid-color: oklch(0.18 0.03 240 / 0.06);
+  --glass-bg: oklch(1 0 0 / 0.55);
+  --glass-border: oklch(0.18 0.03 240 / 0.08);
 }
 
 .dark {
-  /* Dark — azul profundo com destaques dourado + azul escuro */
-  --background: oklch(0.17 0.055 250);
-  --foreground: oklch(0.96 0.015 230);
-  --surface: oklch(0.21 0.065 250);
-  --surface-2: oklch(0.25 0.075 250);
-  --card: oklch(0.22 0.07 250);
-  --card-foreground: oklch(0.96 0.015 230);
-  --popover: oklch(0.21 0.065 250);
-  --popover-foreground: oklch(0.96 0.015 230);
-  --primary: oklch(0.72 0.14 235);
-  --primary-foreground: oklch(0.15 0.06 252);
-  --secondary: oklch(0.29 0.08 250);
-  --secondary-foreground: oklch(0.96 0.015 230);
-  --muted: oklch(0.28 0.075 250);
-  --muted-foreground: oklch(0.75 0.045 232);
-  --accent: oklch(0.33 0.10 250);
-  --accent-foreground: oklch(0.96 0.015 230);
+  --background: oklch(0.13 0.025 245);
+  --foreground: oklch(0.96 0.01 240);
+  --surface: oklch(0.16 0.028 245);
+  --surface-2: oklch(0.19 0.03 245);
+  --card: oklch(0.17 0.028 245);
+  --card-foreground: oklch(0.96 0.01 240);
+  --popover: oklch(0.16 0.028 245);
+  --popover-foreground: oklch(0.96 0.01 240);
+  --primary: oklch(0.96 0.01 240);
+  --primary-foreground: oklch(0.13 0.025 245);
+  --secondary: oklch(0.22 0.03 245);
+  --secondary-foreground: oklch(0.96 0.01 240);
+  --muted: oklch(0.22 0.03 245);
+  --muted-foreground: oklch(0.7 0.02 240);
+  --accent: oklch(0.24 0.04 245);
+  --accent-foreground: oklch(0.96 0.01 240);
   --destructive: oklch(0.65 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.72 0.13 235 / 0.20);
-  --input: oklch(0.72 0.13 235 / 0.24);
-  --ring: oklch(0.84 0.14 84 / 0.55);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.78 0.13 78 / 0.5);
 
-  --gold: oklch(0.84 0.14 84);
-  --gold-foreground: oklch(0.15 0.06 252);
-  --gold-glow: oklch(0.84 0.14 84 / 0.55);
-  --online: oklch(0.78 0.20 150);
+  --gold: oklch(0.82 0.14 82);
+  --gold-foreground: oklch(0.13 0.025 245);
+  --gold-glow: oklch(0.82 0.14 82 / 0.5);
+  --online: oklch(0.82 0.22 148);
 
-  --grid-color: oklch(0.78 0.14 235 / 0.10);
-  --glass-bg: oklch(0.22 0.07 250 / 0.6);
-  --glass-border: oklch(0.78 0.14 235 / 0.14);
+  --grid-color: oklch(0.82 0.14 82 / 0.07);
+  --glass-bg: oklch(0.17 0.028 245 / 0.55);
+  --glass-border: oklch(1 0 0 / 0.08);
 }
 
 @layer base {
@@ -168,9 +163,8 @@
   }
   .hero-glow {
     background:
-      radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--gold) 16%, transparent), transparent 60%),
-      radial-gradient(45% 45% at 15% 30%, color-mix(in oklab, oklch(0.55 0.18 240) 22%, transparent), transparent 70%),
-      radial-gradient(45% 45% at 85% 70%, color-mix(in oklab, oklch(0.30 0.14 252) 28%, transparent), transparent 70%);
+      radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--gold) 18%, transparent), transparent 60%),
+      radial-gradient(40% 40% at 80% 60%, color-mix(in oklab, oklch(0.5 0.18 250) 18%, transparent), transparent 70%);
   }
   .ring-gold {
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
