@@ -20,13 +20,6 @@ const cities = [
   { name: "Petrolina", x: 12, y: 36 },
 ];
 
-const regions = [
-  { label: "Região Metropolitana do Recife", sla: "≤ 8 min", coverage: "100%" },
-  { label: "Zona da Mata & Litoral", sla: "≤ 15 min", coverage: "Cobertura total" },
-  { label: "Agreste Pernambucano", sla: "≤ 25 min", coverage: "Bases em Caruaru e Garanhuns" },
-  { label: "Sertão & Vale do São Francisco", sla: "≤ 45 min", coverage: "Bases em Serra Talhada e Petrolina" },
-];
-
 export function Coverage() {
   const hub = cities.find((c) => c.hub)!;
 
@@ -60,23 +53,6 @@ export function Coverage() {
               </div>
             ))}
           </div>
-
-          <ul className="mt-8 space-y-2">
-            {regions.map((r) => (
-              <li
-                key={r.label}
-                className="glass rounded-lg px-4 py-3 flex items-center justify-between gap-4"
-              >
-                <div>
-                  <div className="text-sm font-semibold text-foreground">{r.label}</div>
-                  <div className="text-[11px] text-muted-foreground">{r.coverage}</div>
-                </div>
-                <span className="text-[11px] font-mono text-gold whitespace-nowrap">
-                  SLA {r.sla}
-                </span>
-              </li>
-            ))}
-          </ul>
         </Reveal>
 
         <Reveal delay={0.15}>
