@@ -1,28 +1,8 @@
 import { Reveal } from "./Reveal";
 
-// Pernambuco — stylized horizontal silhouette in a 0 0 100 50 viewBox.
-// Cities placed approximately by mesorregião (Sertão → Agreste → Zona da Mata → RMR).
-const cities = [
-  { name: "Recife", x: 94, y: 28, hub: true },
-  { name: "Olinda", x: 93, y: 25 },
-  { name: "Jaboatão dos Guararapes", x: 92, y: 31 },
-  { name: "Paulista", x: 93, y: 22 },
-  { name: "Cabo de Santo Agostinho", x: 90, y: 34 },
-  { name: "Igarassu", x: 91, y: 20 },
-  { name: "Goiana", x: 89, y: 17 },
-  { name: "Vitória de Santo Antão", x: 84, y: 28 },
-  { name: "Gravatá", x: 78, y: 29 },
-  { name: "Caruaru", x: 72, y: 30 },
-  { name: "Garanhuns", x: 66, y: 38 },
-  { name: "Arcoverde", x: 55, y: 32 },
-  { name: "Serra Talhada", x: 38, y: 24 },
-  { name: "Salgueiro", x: 25, y: 22 },
-  { name: "Petrolina", x: 12, y: 36 },
-];
+const serviceCities = ["Garanhuns", "Caruaru", "Lajedo"];
 
 export function Coverage() {
-  const hub = cities.find((c) => c.hub)!;
-
   return (
     <section id="cobertura" className="relative py-28 md:py-36 overflow-hidden">
       <div className="mx-auto max-w-7xl px-5 md:px-8 grid lg:grid-cols-[1fr_1.4fr] gap-14 items-center">
@@ -31,18 +11,17 @@ export function Coverage() {
             Cobertura regional — Pernambuco
           </span>
           <h2 className="mt-4 font-display text-4xl md:text-5xl font-bold tracking-tight">
-            Do Recife ao Sertão, nossa central acompanha cada operação.
+            Base operacional em Garanhuns, atuando em toda a região.
           </h2>
           <p className="mt-5 text-muted-foreground leading-relaxed">
-            Atuação consolidada em todo o estado de Pernambuco, com base operacional no Recife e
-            bases táticas avançadas no Agreste e no Sertão. SLAs ajustados por mesorregião e
-            integração total com a Central 24h.
+            Operação centralizada em Garanhuns com alcance estratégico sobre o Agreste e cidades
+            circunvizinhas. Resposta ágil, frota posicionada e central de monitoramento 24h.
           </p>
 
           <div className="mt-8 grid grid-cols-3 gap-4">
             {[
-              { v: "15+", l: "Municípios PE" },
-              { v: "4", l: "Bases táticas" },
+              { v: "3+", l: "Cidades atendidas" },
+              { v: "1", l: "Base tática" },
               { v: "24h", l: "Central ativa" },
             ].map((s) => (
               <div key={s.l} className="glass rounded-lg p-4">
@@ -60,15 +39,15 @@ export function Coverage() {
             {/* HUD label */}
             <div className="absolute top-4 left-6 right-6 flex items-center justify-between text-[10px] tracking-[0.18em] uppercase text-muted-foreground">
               <span>● Mapa operacional / PE-BR</span>
-              <span className="text-gold">Central Recife</span>
+              <span className="text-gold">Base Garanhuns</span>
             </div>
 
             <svg
-              viewBox="0 0 100 50"
+              viewBox="0 0 100 60"
               className="absolute inset-6 top-10 h-[calc(100%-4.5rem)] w-[calc(100%-3rem)]"
             >
               <defs>
-                <radialGradient id="pe-glow" cx="90%" cy="55%">
+                <radialGradient id="pe-glow" cx="55%" cy="65%">
                   <stop offset="0%" stopColor="oklch(0.84 0.15 82 / 0.28)" />
                   <stop offset="100%" stopColor="transparent" />
                 </radialGradient>
@@ -78,36 +57,55 @@ export function Coverage() {
                 </linearGradient>
               </defs>
 
-              <rect width="100" height="50" fill="url(#pe-glow)" />
+              <rect width="100" height="60" fill="url(#pe-glow)" />
 
-              {/* Stylized Pernambuco silhouette */}
+              {/* Pernambuco silhouette — more accurate shape */}
               <path
-                d="M 8 38
-                   L 6 30
-                   L 10 22
-                   L 18 18
+                d="M 10 45
+                   L 8 38
+                   L 9 30
+                   L 12 24
+                   L 16 20
+                   L 22 18
                    L 28 17
-                   L 38 16
-                   L 48 18
-                   L 58 19
-                   L 66 20
-                   L 74 22
-                   L 82 22
-                   L 88 20
-                   L 93 18
-                   L 96 22
-                   L 97 28
-                   L 96 34
+                   L 34 17
+                   L 40 18
+                   L 45 19
+                   L 50 20
+                   L 55 21
+                   L 60 22
+                   L 65 23
+                   L 70 24
+                   L 75 24
+                   L 80 23
+                   L 84 22
+                   L 88 21
+                   L 91 19
+                   L 93 17
+                   L 94 20
+                   L 95 23
+                   L 96 26
+                   L 96 29
+                   L 95 32
+                   L 94 35
                    L 92 38
-                   L 86 39
-                   L 78 40
-                   L 70 41
-                   L 60 42
-                   L 50 42
-                   L 40 40
-                   L 30 38
-                   L 22 39
-                   L 14 40
+                   L 90 40
+                   L 87 42
+                   L 83 43
+                   L 79 44
+                   L 74 44
+                   L 69 44
+                   L 64 43
+                   L 59 42
+                   L 54 41
+                   L 49 40
+                   L 44 40
+                   L 39 41
+                   L 34 42
+                   L 29 43
+                   L 24 44
+                   L 19 45
+                   L 14 45
                    Z"
                 fill="url(#pe-fill)"
                 stroke="oklch(0.84 0.15 82 / 0.55)"
@@ -115,79 +113,66 @@ export function Coverage() {
                 strokeDasharray="0.8 0.6"
               />
 
-              {/* Connection lines from Recife hub to bases */}
-              {cities
-                .filter((c) => !c.hub)
-                .map((c, i) => (
-                  <line
-                    key={i}
-                    x1={hub.x}
-                    y1={hub.y}
-                    x2={c.x}
-                    y2={c.y}
-                    stroke="oklch(0.84 0.15 82 / 0.22)"
-                    strokeWidth="0.18"
+              {/* Base marker — Garanhuns area (approximate center-south of state) */}
+              <g>
+                <circle
+                  cx="62"
+                  cy="36"
+                  r="3"
+                  fill="none"
+                  stroke="oklch(0.84 0.15 82 / 0.6)"
+                  strokeWidth="0.25"
+                >
+                  <animate
+                    attributeName="r"
+                    values="2;4;2"
+                    dur="2.4s"
+                    repeatCount="indefinite"
                   />
-                ))}
-
-              {/* City markers */}
-              {cities.map((c, i) => (
-                <g key={c.name}>
-                  {c.hub && (
-                    <circle
-                      cx={c.x}
-                      cy={c.y}
-                      r="2.6"
-                      fill="none"
-                      stroke="oklch(0.84 0.15 82 / 0.6)"
-                      strokeWidth="0.25"
-                    >
-                      <animate
-                        attributeName="r"
-                        values="2;3.6;2"
-                        dur="2.4s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        values="0.8;0;0.8"
-                        dur="2.4s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
-                  )}
-                  <circle
-                    cx={c.x}
-                    cy={c.y}
-                    r={c.hub ? 1.4 : 0.9}
-                    fill={c.hub ? "oklch(0.84 0.15 82)" : "oklch(0.82 0.22 148)"}
-                    style={{
-                      animation: `pulse-glow 2.4s ease-in-out ${i * 0.12}s infinite`,
-                    }}
+                  <animate
+                    attributeName="opacity"
+                    values="0.8;0;0.8"
+                    dur="2.4s"
+                    repeatCount="indefinite"
                   />
-                  <circle cx={c.x} cy={c.y} r="0.35" fill="white" />
-                </g>
-              ))}
+                </circle>
+                <circle
+                  cx="62"
+                  cy="36"
+                  r="1.6"
+                  fill="oklch(0.84 0.15 82)"
+                />
+                <circle cx="62" cy="36" r="0.45" fill="white" />
+                <text
+                  x="60"
+                  y="33"
+                  textAnchor="end"
+                  fontSize="2.4"
+                  fill="oklch(0.84 0.15 82)"
+                  fontFamily="ui-monospace, monospace"
+                >
+                  GARANHUNS • BASE
+                </text>
+              </g>
 
-              {/* Capital label */}
-              <text
-                x={hub.x - 2}
-                y={hub.y - 3}
-                textAnchor="end"
-                fontSize="2.2"
-                fill="oklch(0.84 0.15 82)"
-                fontFamily="ui-monospace, monospace"
-              >
-                RECIFE • HUB
-              </text>
+              {/* Coverage radius ring around Garanhuns */}
+              <circle
+                cx="62"
+                cy="36"
+                r="8"
+                fill="none"
+                stroke="oklch(0.84 0.15 82 / 0.15)"
+                strokeWidth="0.2"
+                strokeDasharray="1 1"
+              />
             </svg>
 
             {/* Footer city chips */}
             <div className="absolute bottom-4 left-6 right-6 flex flex-wrap gap-x-3 gap-y-1 text-[10px] tracking-[0.12em] uppercase text-muted-foreground">
-              {cities.slice(0, 6).map((c) => (
-                <span key={c.name}>● {c.name}</span>
+              {serviceCities.map((c) => (
+                <span key={c}>● {c}</span>
               ))}
-              <span className="text-gold">+ {cities.length - 6} cidades ativas</span>
+              <span className="text-gold">+ Região circunvizinha</span>
             </div>
           </div>
         </Reveal>
